@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { type User } from "~/server/db";
@@ -29,6 +30,7 @@ export default function Home() {
       <p>Status: {isConnected ? "connected" : "disconnected"}</p>
       <p>Transport: {transport}</p>
       <div>
+        { user?.avatar && <Image src={user.avatar} alt="avatar" width={150} height={150} /> }
         {user?.id} {user?.name} {user?.gender} {user?.avatar}
       </div>
     </div>

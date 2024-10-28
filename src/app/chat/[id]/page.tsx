@@ -7,7 +7,7 @@ import {
   ChatBubbleMessage,
   ChatBubbleTimestamp,
 } from "~/components/ui/chat/chat-bubble";
-import { ChatInput } from "~/components/ui/chat/chat-input";
+import { ChatMessageList } from "~/components/ui/chat/chat-message-list";
 import { Input } from "~/components/ui/input";
 import { type Chat, type User } from "~/server/db";
 import { socket } from "~/server/socket";
@@ -54,21 +54,23 @@ export default function Home() {
 
   return (
     <div>
-      <p>Status: {isConnected ? "connected" : "disconnected"}</p>
-      <p>Transport: {transport}</p>
       {users?.map((u) => (
         <div key={u.id}>
           {u.id} {u.name} {u.gender}
         </div>
       ))}
-      {chats.map((msg) => (
-        <div key={msg.id}>
-          <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />
-          <ChatBubble variant={userId === msg.from ? "sent" : "received"}>
-            <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
-          </ChatBubble>
-        </div>
-      ))}
+
+      <ChatMessageList>
+        {chats.map((msg) => (
+          <div key={msg.id}>
+            <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />
+            <ChatBubble variant={userId === msg.from ? "sent" : "received"}>
+              <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
+            </ChatBubble>
+          </div>
+        ))}
+      </ChatMessageList>
+
       <form onSubmit={sendMessage({ message, to: sendTo, from: userId })}>
         <Input
           value={message}
@@ -81,6 +83,8 @@ export default function Home() {
           }}
         />
       </form>
+
+      <p>Status: {isConnected ? "connected" : "disconnected"}; Transport: {transport}</p>
     </div>
   );
 }
