@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { Tabs, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -14,7 +15,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList>
+            <TabsTrigger value="account">Chat</TabsTrigger>
+            <TabsTrigger value="password">Profile</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        {children}
+      </body>
     </html>
   );
 }

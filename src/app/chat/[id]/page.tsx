@@ -7,6 +7,7 @@ import {
   ChatBubbleMessage,
   ChatBubbleTimestamp,
 } from "~/components/ui/chat/chat-bubble";
+import { ChatInput } from "~/components/ui/chat/chat-input";
 import { Input } from "~/components/ui/input";
 import { type Chat, type User } from "~/server/db";
 import { socket } from "~/server/socket";
@@ -62,7 +63,7 @@ export default function Home() {
       ))}
       {chats.map((msg) => (
         <div key={msg.id}>
-          <ChatBubbleTimestamp timestamp={msg.createdAt ?? ''} />
+          <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />
           <ChatBubble variant={userId === msg.from ? "sent" : "received"}>
             <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
           </ChatBubble>
