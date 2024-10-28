@@ -10,11 +10,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model Chat {
+    id        Int      @id @default(autoincrement())
+    message   String
+    from      Int // User.id
+    to        Int // User.id
+    createdAt DateTime @default(now())
+}
+
+model User {
     id        Int      @id @default(autoincrement())
     name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
+    gender    String
+    avatar    String
 }
