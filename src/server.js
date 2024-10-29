@@ -1,4 +1,4 @@
-// NO TYPES IN JS
+// NO TYPES IN JSserveo
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-misused-promises */
 import { PrismaClient } from "@prisma/client";
 import { createServer } from "node:http";
@@ -22,6 +22,13 @@ await app.prepare().then(() => {
 
     socket.emit("users", users);
     socket.emit("initial-chats", chats);
+
+    socket.on("get-initial-data", async () => {
+      const users = await prisma.user.findMany();
+      const chats = await prisma.chat.findMany();
+      socket.emit("users", users);
+      socket.emit("initial-chats", chats);
+    });
 
     socket.on("send-message", async (messageData) => {
       const newMessage = await prisma.chat.create({
