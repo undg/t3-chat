@@ -2,7 +2,6 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-import { useParams } from "next/navigation";
 import { Navigation } from "~/app/navigation";
 
 export const metadata: Metadata = {
@@ -18,7 +17,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <div className="flex justify-center w-full">
-        <div className="w-[90%]">
+        <div className="w-[90%] max-w-screen-sm">
           <Navigation />
           {children}
         </div>

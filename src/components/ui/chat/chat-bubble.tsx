@@ -5,7 +5,7 @@ import MessageLoading from "./message-loading";
 
 // ChatBubble
 const chatBubbleVariant = cva(
-  "flex gap-2 max-w-[60%] items-end relative group",
+  "flex gap-2 items-end relative group",
   {
     variants: {
       variant: {
@@ -88,7 +88,7 @@ const ChatBubbleMessage = React.forwardRef<
     <div
       className={cn(
         chatBubbleMessageVariants({ variant, layout, className }),
-        "break-words max-w-full whitespace-pre-wrap",
+        "break-words max-w-[80%] whitespace-pre-wrap",
       )}
       ref={ref}
       {...props}

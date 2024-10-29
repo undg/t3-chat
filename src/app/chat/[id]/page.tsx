@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
+import {isInTimeBoundry } from "~/app/chat/[id]/utils";
 import {
   ChatBubble,
   ChatBubbleMessage,
@@ -49,9 +50,9 @@ export default function Home() {
   return (
     <div>
       <ChatMessageList>
-        {chats.map((msg) => (
+        {chats.map((msg, idx) => (
           <div key={msg.id}>
-            <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />
+            {isInTimeBoundry(chats, msg, idx, {minutes: 60}) && <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />}
             <ChatBubble variant={userId === msg.from ? "sent" : "received"}>
               <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
             </ChatBubble>
