@@ -2,6 +2,12 @@
 
 This project is bootstrapped with [T3 Stack](https://create.t3.gg/)
 
+## Demo
+
+
+ 
+[![Watch the video]()](https://youtu.be/ceFsitHBQ8Y)
+
 ## Installation
 
 ```bash
