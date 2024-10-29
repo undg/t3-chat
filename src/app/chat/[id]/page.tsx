@@ -10,6 +10,7 @@ import {
 } from "~/components/ui/chat/chat-bubble";
 import { ChatMessageList } from "~/components/ui/chat/chat-message-list";
 import { Input } from "~/components/ui/input";
+import { useWindowSize } from "~/lib/use-window-size";
 import { cn } from "~/lib/utils";
 import { type Chat } from "~/server/db";
 import { socket } from "~/server/socket";
@@ -20,6 +21,7 @@ export default function Home() {
   // Naive shortcut. Hard assumption that there are only 2 users in app
   const sendTo: number = userId === 1 ? 2 : 1;
   const navAndFooterHeight = 150;
+  const {height} = useWindowSize()
 
   const [chats, setChats] = useState<Chat[]>([]);
   const [message, setMessage] = useState("");
@@ -62,7 +64,7 @@ export default function Home() {
     <>
       <div
         className="overflow-y-auto"
-        style={{ height: `${window.innerHeight - navAndFooterHeight}px` }}
+        style={{ height: `${height - navAndFooterHeight}px` }}
       >
         <ChatMessageList ref={chatRef}>
           {chats.map((msg, idx) => {
