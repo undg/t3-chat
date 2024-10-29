@@ -52,3 +52,50 @@ describe(`isInTimeBoundry().timeExceeded`, () => {
     ).to.be.true;
   });
 });
+describe(`isInTimeBoundry().sameUser`, () => {
+  it(`should return false if prev chat was NOT from same user`, () => {
+    expect(
+      isInTimeBoundry(
+        [
+          {
+            createdAt: "2000-01-01T00:00:00.000Z",
+            message: "",
+            to: 1,
+            from: 2,
+          },
+          {
+            createdAt: "2000-01-01T00:00:30.000Z",
+            message: "",
+            to: 2,
+            from: 1,
+          },
+        ],
+        1,
+        { seconds: 20 },
+      ).sameUser,
+    ).to.be.false;
+  });
+
+  it(`should return true if prev chat was from same user`, () => {
+    expect(
+      isInTimeBoundry(
+        [
+          {
+            createdAt: "2000-01-01T00:00:00.000Z",
+            message: "",
+            to: 1,
+            from: 2,
+          },
+          {
+            createdAt: "2000-01-01T00:00:30.000Z",
+            message: "",
+            to: 1,
+            from: 2,
+          },
+        ],
+        1,
+        { seconds: 20 },
+      ).sameUser,
+    ).to.be.true;
+  });
+});
