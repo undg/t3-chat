@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
-import {isInTimeBoundry } from "~/app/chat/[id]/utils";
+import { isInTimeBoundry } from "~/app/chat/[id]/utils";
 import {
   ChatBubble,
   ChatBubbleMessage,
@@ -10,6 +10,7 @@ import {
 } from "~/components/ui/chat/chat-bubble";
 import { ChatMessageList } from "~/components/ui/chat/chat-message-list";
 import { Input } from "~/components/ui/input";
+import { cn } from "~/lib/utils";
 import { type Chat } from "~/server/db";
 import { socket } from "~/server/socket";
 
@@ -23,16 +24,21 @@ export default function Home() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    socket.emit('get-initial-data');
+    socket.emit("get-initial-data");
 
     socket.on("initial-chats", (chats: Chat[]) => {
       setChats(chats);
+      console.log(chats);
+      console.log(
+        chats.forEach((chat, idx) =>
+          console.log("chat", isInTimeBoundry(chats, idx, { seconds: 1 })),
+        ),
+      );
     });
 
     socket.on("new-message", (message: Chat) => {
       setChats((oldChats) => [...oldChats, message]);
     });
-
 
     return () => {
       socket.off("initial-chats");
@@ -50,14 +56,28 @@ export default function Home() {
   return (
     <div>
       <ChatMessageList>
-        {chats.map((msg, idx) => (
-          <div key={msg.id}>
-            {isInTimeBoundry(chats, msg, idx, {minutes: 60}) && <ChatBubbleTimestamp timestamp={msg.createdAt ?? ""} />}
-            <ChatBubble variant={userId === msg.from ? "sent" : "received"}>
-              <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
-            </ChatBubble>
-          </div>
-        ))}
+        {chats.map((msg, idx) => {
+          const timeBoundry = isInTimeBoundry(chats, idx, { hours: 1 });
+          const userTimeBoundry = isInTimeBoundry(chats, idx, { seconds: 20 });
+
+          return (
+            <div key={msg.id}>
+              <ChatBubbleTimestamp
+                className={cn(
+                  !timeBoundry.timeExceeded &&
+                  "hidden",
+                )}
+                timestamp={msg.createdAt ?? ""}
+              />
+              <ChatBubble
+                className={cn(userTimeBoundry.sameUser && !userTimeBoundry.timeExceeded && "mt-5")}
+                variant={userId === msg.from ? "sent" : "received"}
+              >
+                <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
+              </ChatBubble>
+            </div>
+          );
+        })}
       </ChatMessageList>
 
       <form onSubmit={sendMessage({ message, to: sendTo, from: userId })}>

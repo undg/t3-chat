@@ -1,7 +1,8 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { useWsStatus } from './use-ws-status';
 import { socket } from '~/server/socket';
+import { act } from 'react';
 
 vi.mock('~/server/socket', () => ({
   socket: {
