@@ -64,7 +64,7 @@ export default function Home() {
                 timestamp={msg.createdAt ?? ""}
               />
               <ChatBubble
-                className={cn(userTimeBoundry.sameUser && !userTimeBoundry.timeExceeded && "mt-5")}
+                className={cn(userTimeBoundry.sameUser && userTimeBoundry.timeExceeded && "mt-5")}
                 variant={userId === msg.from ? "sent" : "received"}
               >
                 <ChatBubbleMessage>{msg.message}</ChatBubbleMessage>
