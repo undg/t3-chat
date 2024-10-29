@@ -16,8 +16,10 @@ export default function Home() {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
+    socket.emit("get-initial-data");
+
     socket.on("users", (users: User[]) => {
-      setUser(users[userId]);
+      setUser(users.find(user => user.id === userId));
     });
 
     return () => {
@@ -27,12 +29,15 @@ export default function Home() {
 
   return (
     <div>
-      <p>Status: {isConnected ? "connected" : "disconnected"}</p>
-      <p>Transport: {transport}</p>
       <div>
-        { user?.avatar && <Image src={user.avatar} alt="avatar" width={150} height={150} /> }
-        {user?.id} {user?.name} {user?.gender} {user?.avatar}
+        {user?.avatar && (
+          <Image src={user.avatar} alt="avatar" width={150} height={150} />
+        )}
+        {user?.name}
       </div>
+      <p>
+        Status: {isConnected ? "connected" : "disconnected"}; Transport: {transport}
+      </p>
     </div>
   );
 }
