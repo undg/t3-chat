@@ -15,9 +15,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <div className="flex justify-center w-full">
-        <div className="w-[90%] max-w-screen-sm">
+      <body className="h-dvh flex flex-col">
+        <div className="flex justify-center flex-grow-0">
+        <div className="w-[90%] max-w-screen-sm flex-grow">
           <Navigation />
           {children}
         </div>
