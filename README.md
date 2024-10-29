@@ -6,7 +6,8 @@ This project is bootstrapped with [T3 Stack](https://create.t3.gg/)
 
 
  
-[![Watch the video]()](https://youtu.be/ceFsitHBQ8Y)
+[![Watch the video](https://github.com/user-attachments/assets/91ff57b6-e698-43ba-aed4-59e100573c73)
+](https://youtu.be/ceFsitHBQ8Y)
 
 ## Installation
 
