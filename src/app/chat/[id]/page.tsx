@@ -28,12 +28,6 @@ export default function Home() {
 
     socket.on("initial-chats", (chats: Chat[]) => {
       setChats(chats);
-      console.log(chats);
-      console.log(
-        chats.forEach((chat, idx) =>
-          console.log("chat", isInTimeBoundry(chats, idx, { seconds: 1 })),
-        ),
-      );
     });
 
     socket.on("new-message", (message: Chat) => {
