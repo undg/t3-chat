@@ -9,7 +9,7 @@ import {
 } from "~/components/ui/chat/chat-bubble";
 import { ChatMessageList } from "~/components/ui/chat/chat-message-list";
 import { Input } from "~/components/ui/input";
-import { type Chat, type User } from "~/server/db";
+import { type Chat } from "~/server/db";
 import { socket } from "~/server/socket";
 import { useWsStatus } from "~/server/use-ws-status";
 
@@ -21,25 +21,22 @@ export default function Home() {
 
   const { isConnected, transport } = useWsStatus();
 
-  const [users, setUsers] = useState<User[]>();
   const [chats, setChats] = useState<Chat[]>([]);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    socket.on("users", (users: User[]) => {
-      setUsers(users);
-    });
+    socket.emit('get-initial-data');
 
     socket.on("initial-chats", (chats: Chat[]) => {
-      setChats((oldChats) => [...oldChats, ...chats]);
+      setChats(chats);
     });
 
     socket.on("new-message", (message: Chat) => {
       setChats((oldChats) => [...oldChats, message]);
     });
 
+
     return () => {
-      socket.off("users");
       socket.off("initial-chats");
       socket.off("new-message");
     };
@@ -54,12 +51,6 @@ export default function Home() {
 
   return (
     <div>
-      {users?.map((u) => (
-        <div key={u.id}>
-          {u.id} {u.name} {u.gender}
-        </div>
-      ))}
-
       <ChatMessageList>
         {chats.map((msg) => (
           <div key={msg.id}>
