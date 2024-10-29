@@ -11,15 +11,12 @@ import { ChatMessageList } from "~/components/ui/chat/chat-message-list";
 import { Input } from "~/components/ui/input";
 import { type Chat } from "~/server/db";
 import { socket } from "~/server/socket";
-import { useWsStatus } from "~/server/use-ws-status";
 
 export default function Home() {
   const params = useParams();
   const userId = Number(params.id);
   // Naive shortcut. Hard assumption that there are only 2 users in app
   const sendTo: number = userId === 1 ? 2 : 1;
-
-  const { isConnected, transport } = useWsStatus();
 
   const [chats, setChats] = useState<Chat[]>([]);
   const [message, setMessage] = useState("");
@@ -74,8 +71,6 @@ export default function Home() {
           }}
         />
       </form>
-
-      <p>Status: {isConnected ? "connected" : "disconnected"}; Transport: {transport}</p>
     </div>
   );
 }
