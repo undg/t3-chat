@@ -65,7 +65,7 @@ export default function Home() {
         style={{ height: `${window.innerHeight - navAndFooterHeight}px` }}
       >
         <ChatMessageList ref={chatRef}>
-          {chats.reverse().map((msg, idx) => {
+          {chats.map((msg, idx) => {
             const timeBoundry = isInTimeBoundry(chats, idx, { hours: 1 });
             const userTimeBoundry = isInTimeBoundry(chats, idx, {
               seconds: 20,
